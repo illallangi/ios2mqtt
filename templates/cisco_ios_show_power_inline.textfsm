@@ -1,0 +1,19 @@
+Value Key INTF (\S+)
+Value ADMIN (auto|off|static)
+Value OPER (on|off|faulty|power-deny-a)
+Value POWER (\d+\.\d+)
+Value DEVICE (n/a|unknown|Cisco PD|Ieee PD)
+Value CLASS (n/a|0|1|2|3|4)
+Value MAX (\d+\.\d+)
+
+Start
+  ^Module\s*Available\s*Used\s*Remaining
+  ^\s*(Watts)\s*(Watts)\s*(Watts)
+  ^-*\s*-*\s*-*\s*-*- -> Modules
+
+Modules
+  ^${INTF}\s*${MAX}\s*${POWER} -> Record
+  ^Interface\s*Admin\s*Oper\s*Power\s*Device\s*Class\s*Max
+  ^\s*(Watts)
+  ^-*\s*-*\s*-*\s*-*\s*-*\s*-*\s*-*-
+  ^${INTF}\s*${ADMIN}\s*${OPER}\s*${POWER}\s*${DEVICE}\s*${CLASS}\s*${MAX}.* -> Record
